@@ -1,0 +1,5 @@
+{
+    "platform": "node",
+    "app": "appmaker",
+    "port": 3000
+  }
