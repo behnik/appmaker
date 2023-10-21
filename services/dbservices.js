@@ -48,3 +48,40 @@ exports.get_query = async (query_url) => {
     }
 };
 
+/**
+ * 
+ * @param {خواندن کانفیگ} name 
+ * @returns 
+ */
+exports.get_config = async(name)=>{
+    try{
+        return await this.exec_query('select * from configs where name=:name',{ name : name });
+    }
+    catch(e){
+        console.log(e);
+        return null;
+    }
+};
+
+/**
+ * لیست مارکت ها
+ * @returns
+ */
+exports.get_markets_async = async () => {
+    return await this.exec_query(`select * from markets`);
+};
+
+exports.get_markets = (call_back) => {
+    //this.exec_query(`select * from markets`);
+
+    try{
+        pool.query(`select * from markets`,(err,res,meta)=>{
+            //console.log(err,res,meta);
+            call_back(err,res,meta);
+        });
+    }
+    catch(e){
+        console.log(e);
+    }
+};
+
