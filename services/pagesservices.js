@@ -14,12 +14,12 @@ exports.init = async (app) => {
             var url = req.params.url;
 
             var page_response = await db_services.exec_query(
-                `select title,content from pages where url=:url and page_type = 1`, { url: url }
+                `select title,page_content from pages where url=:url and page_type = 1`, { url: url }
             );
 
             if (page_response !== null && page_response.length === 1) {
                 var page = page_response[0];
-                let template = ejs.render(page.content, {
+                let template = ejs.render(page.page_content, {
                     title: page.title
                 });
                 html = UglifyHtml(template);
@@ -45,7 +45,7 @@ exports.init = async (app) => {
             var url = req.params.url;
 
             var page_response = await db_services.exec_query(
-                `select title,content from pages where url=:url and page_type = 2`, { url: url }
+                `select title,page_content from pages where url=:url and page_type = 2`, { url: url }
             );
 
             if (page_response !== null && page_response.length === 1) {
@@ -62,7 +62,7 @@ exports.init = async (app) => {
                 // var html = result.code;
 
                 res.setHeader('content-type', 'application/javascript');  
-                return res.send(page.content);
+                return res.send(page.page_content);
             }
             else return res.send({ code: 404, message: 'صفحه یافت نشد!' });
         }
@@ -83,14 +83,14 @@ exports.init = async (app) => {
             var url = req.params.url;
 
             var page_response = await db_services.exec_query(
-                `select title,content from pages where url=:url and page_type = 3`, { url: url }
+                `select title,page_content from pages where url=:url and page_type = 3`, { url: url }
             );
 
             if (page_response !== null && page_response.length === 1) {
                 var page = page_response[0];
 
                 res.setHeader('content-type', 'text/css');  
-                return res.send(page.content);
+                return res.send(page.page_content);
             }
             else return res.send({ code: 404, message: 'صفحه یافت نشد!' });
         }
@@ -111,10 +111,10 @@ exports.init = async (app) => {
             var url = req.params.url;
 
             var page_response = await db_services.exec_query(
-                `select content from pages where url=:url and page_type = 4`, { url: url }
+                `select page_content from pages where url=:url and page_type = 4`, { url: url }
             );
     
-            if (page_response != null) return res.send(await eval(page_response[0].content));
+            if (page_response != null) return res.send(await eval(page_response[0].page_content));
             else return res.send({ code: 404, message: 'درخواست یافت نشد!' });
         }
         catch(e){

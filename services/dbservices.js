@@ -63,25 +63,3 @@ exports.get_config = async(name)=>{
     }
 };
 
-/**
- * لیست مارکت ها
- * @returns
- */
-exports.get_markets_async = async () => {
-    return await this.exec_query(`select * from markets`);
-};
-
-exports.get_markets = (call_back) => {
-    //this.exec_query(`select * from markets`);
-
-    try{
-        pool.query(`select * from markets`,(err,res,meta)=>{
-            //console.log(err,res,meta);
-            call_back(err,res,meta);
-        });
-    }
-    catch(e){
-        console.log(e);
-    }
-};
-
